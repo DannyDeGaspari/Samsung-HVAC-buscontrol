@@ -44,7 +44,7 @@ That was the easy part of the communication sniffing. The difficult part is to f
 I made an Excel sheet with all commands that I saw passing on the comms and also tried to fill in all information that the data bytes contains. So the list is still incomplete.
 
 ## Tools
-To snif the communication protocol I used a Raspberry Pi and a RS485 -> TTL convertor which you can easily find on e-bay. I connected the 2 RS-485 wires from the indoor unit to the convertor, the convertor is connected to the Pi's rx and tx pins of the IO header. Be aware the the TTL levels must be 3.3V compatible, if they are 5V, the Pi's IO's will be damaged.
+To snif the communication protocol I used a Raspberry Pi and a RS485 -> TTL convertor which you can easily find on e-bay (search for: TTL RS485 Adapter 485 UART Seriell 3.3V 5 Volt Level Konverter Modul Arduino). Although I had the impression that the RS-485 driver was not working well on 3.3V, I replaced it with following driver : SN65HVD11D from Texas Instruments. I connected the 2 RS-485 wires from the indoor unit to the convertor, the convertor is connected to the Pi's rx and tx pins of the IO header. Be aware the the TTL levels must be 3.3V compatible, if they are 5V, the Pi's IO's will be damaged.
 
 I made some Python scripts to display all the information coming from the serial comms in a meaningful manner.
 Pyserial is a required package.
