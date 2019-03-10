@@ -12,6 +12,7 @@ The physical layer is a 2 wire RS-485 communications bus. Each unit has 2 such b
 Serial communication settings used on the bus are 2400 baud, 8E1. The wired remote control is the master, the indoor units are the slaves. The wired remote control send commands as a message of 14 bytes. The units respond with a similar message with the same length.
 The protocol can be described as follows:
 
+```
 <start> <src> <dst> <cmd> <data: 8 bytes> <chksum> <end>
 
 With:
@@ -24,3 +25,25 @@ Byte   Identifier   Comments
 5-12   Data   : Data is always 8 bytes in length, unused bytes will be zero
 13     Chksum : Checksum of message which is the XOR of bytes 2-12
 14     End    : end of message (0x34)
+```
+
+In my case the address of the wired remote control is 0x84, the address of my 2 indoor units are 0x20 and 0x21.
+The master sends a command to a slave, the slave responds to the master.
+An example communication can look like this (all values are hex and xx represent any value):
+
+```
+Command:
+32 84 20 53 xx xx xx xx xx xx xx xx xx 34
+Reply:
+32 20 84 53 xx xx xx xx xx xx xx xx xx 34
+```
+
+That was the easy part of the communication sniffing. The difficult part is to find out the meaning of all commands and the meaning of al bytes for each command/response.
+
+## Command table
+I made an Excel sheet with all commands that I saw passing on the commns and also tried to fill in all information that the data bytes contains. So the list is still incomplete.
+
+## Tools
+To snif the communication protocol I used a Raspberry Pi and a RS485 -> TTL convertor which you can easily find on e-bay. I connected the 2 RS-485 wires from the indoor unit to the convertor, the convertor is connected to the Pi's rx and tx pins of the IO header. Be aware the the TTL levels must be 3.3V compatible, if they are 5V, the Pi's IO's will be damaged.
+
+I made some Python scripts to display all the information coming from the serial comms in a meaningful manner.
