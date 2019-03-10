@@ -47,3 +47,10 @@ I made an Excel sheet with all commands that I saw passing on the comms and also
 To snif the communication protocol I used a Raspberry Pi and a RS485 -> TTL convertor which you can easily find on e-bay. I connected the 2 RS-485 wires from the indoor unit to the convertor, the convertor is connected to the Pi's rx and tx pins of the IO header. Be aware the the TTL levels must be 3.3V compatible, if they are 5V, the Pi's IO's will be damaged.
 
 I made some Python scripts to display all the information coming from the serial comms in a meaningful manner.
+Pyserial is a required package.
+
+Call the scripts with the -h option to obtain info on how to use it.
+serial_dump.py dumps all serial communication on screen, there is no transmission of commands.
+lib_serial.py is used by ac_control.py 
+
+In my setup, I use the wired remote control in combination with the Raspberry Pi which acts also as a master. This makes the communication a bit tricky. The wired remote control sends commands to all units in sequence and ends the communication with a command to destination address 0xAD, no reply is coming from any of the units on this one. I suspect the 0xAD address to be a broadcast address. Then there is a 300 ms gap in the communication and then it all starts over with other commands. During this gap the tools make use of the bus to send their own commands. The wired remote will not notice the presence of the other master but it will take over the changed settings of the untis when it polls their status.
