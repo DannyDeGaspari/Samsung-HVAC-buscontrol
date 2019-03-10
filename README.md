@@ -41,7 +41,7 @@ Reply:
 That was the easy part of the communication sniffing. The difficult part is to find out the meaning of all commands and the meaning of al bytes for each command/response.
 
 ## Command table
-I made an Excel sheet with all commands that I saw passing on the commns and also tried to fill in all information that the data bytes contains. So the list is still incomplete.
+I made an Excel sheet with all commands that I saw passing on the comms and also tried to fill in all information that the data bytes contains. So the list is still incomplete.
 
 ## Tools
 To snif the communication protocol I used a Raspberry Pi and a RS485 -> TTL convertor which you can easily find on e-bay. I connected the 2 RS-485 wires from the indoor unit to the convertor, the convertor is connected to the Pi's rx and tx pins of the IO header. Be aware the the TTL levels must be 3.3V compatible, if they are 5V, the Pi's IO's will be damaged.
