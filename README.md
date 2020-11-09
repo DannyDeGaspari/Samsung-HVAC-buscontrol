@@ -43,6 +43,40 @@ That was the easy part of the communication sniffing. The difficult part is to f
 ## Command table
 I made an Excel sheet with all commands that I saw passing on the comms and also tried to fill in all information that the data bytes contains. So the list is still incomplete.
 
+| Cmd | Description |
+| :---: | :--- |
+| A0  | Change settings command |
+|     | Unit replies with 50 |
+
+| Data byte | Settings |
+| :---: | :--- |
+| 1 | <p>bit 4-0 : 0x1a = blade swing up/down<br>0x1f = blade swing off</p> |
+|   | bit 5 : sleep |
+| 2 | 0 |
+| 3 | bit 4-0 : temperature setting |
+|   | <p>bit 7-5 : fan speed<br>0 = auto<br>2 = low<br>4 = medium<br>5 = high</p> |
+| 4 | <p>bit 2-0 : mode<br>0 = auto<br>1 = cool<br>2 = dry<br>3 = fan<br>4 = heat</p> |
+|   | bit 5 : reset "clean filter" message |
+| 5 | <p>bit 7-0 : on/off<br>c4 = switch off<br>f4 = switch on</p> |
+| 6 | 0 |
+| 7 | <p>bit 3-0 : set blade position<br>0 = closed<br>1 = open smallest<br>2 = mid positions<br>7 = open max</p> |
+|   | bit 4 : set blade position |
+|   | bit 5 : quiet mode |
+| 8 | 0 |
+
+| Cmd | Description |
+| :---: | :--- |
+| 52  | Reply  |
+
+| Data byte | Settings |
+| :---: | :--- |
+| 1 | bit 4-0 : set temperature - 9 |
+| 2 | bit 4-0 : room temperature - 9 |
+| 3 | temperature ? |
+| 4 | <p>bit 2-0 : fan speed<br>0 = auto<br>2 = low<br>4 = medium<br>5 = high</p> |
+|   | <p>bit 7-3 : blade swing<br>1A = swing up/down<br>1F = blade swing off</p> |
+
+
 ## Tools
 To snif the communication protocol I used a Raspberry Pi and a RS485 -> TTL convertor which you can easily find on e-bay (search for: TTL RS485 Adapter 485 UART Seriell 3.3V 5 Volt Level Konverter Modul Arduino). Although I had the impression that the RS-485 driver was not working well on 3.3V, I replaced it with following driver : SN65HVD11D from Texas Instruments. I connected the 2 RS-485 wires from the indoor unit to the convertor, the convertor is connected to the Pi's rx and tx pins of the IO header. Be aware the the TTL levels must be 3.3V compatible, if they are 5V, the Pi's IO's will be damaged.
 
