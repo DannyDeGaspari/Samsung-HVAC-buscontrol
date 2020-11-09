@@ -137,6 +137,7 @@ The temperature in degrees is calculated as follows: (<high byte> * 256 + <low b
 
 Other commands seen on the link are: 63, 70, 71, 83, D1.
 The meaning of these commands and replies are unknown.
+Be careful with trying other commands because it is possible that there exist commands that have impact on the flash memory contents of the unit and may brick the memory contents of the unit.
 
 ## Tools
 To snif the communication protocol I used a Raspberry Pi and a RS485 -> TTL convertor which you can easily find on e-bay (search for: TTL RS485 Adapter 485 UART Seriell 3.3V 5 Volt Level Konverter Modul Arduino). Although I had the impression that the RS-485 driver was not working well on 3.3V, I replaced it with following driver : SN65HVD11D from Texas Instruments. I connected the 2 RS-485 wires from the indoor unit to the convertor, the convertor is connected to the Pi's rx and tx pins of the IO header. Be aware the the TTL levels must be 3.3V compatible, if they are 5V, the Pi's IO's will be damaged.
