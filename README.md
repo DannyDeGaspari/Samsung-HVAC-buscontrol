@@ -40,13 +40,14 @@ Reply:
 
 That was the easy part of the communication sniffing. The difficult part is to find out the meaning of all commands and the meaning of al bytes for each command/response.
 
-## Command table
-I made an Excel sheet with all commands that I saw passing on the comms and also tried to fill in all information that the data bytes contains. So the list is still incomplete.
+## Command tables
+All values of the commands and bit group values in the following tables are in hexadecimal notation.
+The bits that are not described in the following tables are zero and the function of those bits are unknown.
 
-| Cmd | Description |
-| :---: | :--- |
-| A0  | Change settings command |
-|     | Unit replies with 50 |
+### Command A0
+
+Change settings command, by exception the unit replies with command 50, all other commands are replied with the same command identifier.
+This is the command to be used when the settings of the HVAC unit needs to be changed.
 
 | Data byte | Settings |
 | :---: | :--- |
@@ -64,9 +65,9 @@ I made an Excel sheet with all commands that I saw passing on the comms and also
 |   | bit 5 : quiet mode |
 | 8 | 0 |
 
-| Cmd | Description |
-| :---: | :--- |
-| 52  | Reply  |
+### Command 52
+
+This command is an information request. The bytes in the command are all zeroes, the reply to this command is described below:
 
 | Data byte | Settings |
 | :---: | :--- |
@@ -75,7 +76,67 @@ I made an Excel sheet with all commands that I saw passing on the comms and also
 | 3 | temperature ? |
 | 4 | <p>bit 2-0 : fan speed<br>0 = auto<br>2 = low<br>4 = medium<br>5 = high</p> |
 |   | <p>bit 7-3 : blade swing<br>1A = swing up/down<br>1F = blade swing off</p> |
+| 5 | <p>bit 3-0 : 1 = wired control<br>2 = remote control</p> |
+|   | bit 4 : 1 = defrost on |
+|   | <p>bit 7 : 0 = power is off<br>1 = power in on</p> |
+| 6 | bit 4 : 1 = filter needs cleaning |
+| 7 | 0 |
+| 8 | temperature ? |
 
+### Command 53
+
+This command is an information request. The bytes in the command are all zeroes, the reply to this command is described below:
+
+| Data byte | Settings |
+| :---: | :--- |
+| 1 | 0 |
+| 2 | 0 |
+| 3 | 0 |
+| 4 | 0 |
+| 5 | <p>bit 7-0 : 0 = blade swing off<br>1A = blade swing up/down</p> |
+| 6 | 0 |
+| 7 | 0 |
+| 8 | <p>bit 2-0 : mode<br>0 = auto<br>1 = cool<br>2 = dry<br>3 = fan<br>4 = heat</p> |
+
+### Command 54
+
+This command is an information request. The bytes in the command are all zeroes, the reply to this command is described below:
+
+| Data byte | Settings |
+| :---: | :--- |
+| 1 | contains value 21, meaning unknown |
+| 2 | <p>bit 3-0 : blade position when swing is off<br>0 = closed<br>1 = open smallest<br>2 = mid positions<br>7 = open max</p> |
+|   | <p>bit 4 : 0 = blade swing off<br>1 = blade swing up/down</p> |
+| 3 | 1E : meaning unknown |
+| 4 | 0 |
+| 5 | 0 |
+| 6 | unknown |
+| 7 | 0 |
+| 8 | 0 |
+
+### Command 64
+
+This command is the temperature information command to the unit, the reply to this command is described below:
+
+| Data byte | Settings |
+| :---: | :--- |
+| 1 | contains value 20 for command and reply, meaning unknown |
+| 2 | <p> command and reply: bit 0: used temperature for regulation<br>0 = use internal temperature<br>1= use wired remote temperature</p> |
+| 3 | command: wired remote temperature value high byte |
+|   | reply: used temperature value high byte |
+| 4 | command: wired remote temperature value low byte |
+|   | reply: used temperature value low byte |
+| 5 | reply: unit temperature value high byte |
+| 6 | reply: unit temperature value low byte |
+| 7 | 0 |
+| 8 | 0 |
+
+The temperature in degrees is calculated as follows: (<high byte> * 256 + <low byte> - 553) / 10
+
+### Other commands
+
+Other commands seen on the link are: 63, 70, 71, 83, D1.
+The meaning of these commands and replies are unknown.
 
 ## Tools
 To snif the communication protocol I used a Raspberry Pi and a RS485 -> TTL convertor which you can easily find on e-bay (search for: TTL RS485 Adapter 485 UART Seriell 3.3V 5 Volt Level Konverter Modul Arduino). Although I had the impression that the RS-485 driver was not working well on 3.3V, I replaced it with following driver : SN65HVD11D from Texas Instruments. I connected the 2 RS-485 wires from the indoor unit to the convertor, the convertor is connected to the Pi's rx and tx pins of the IO header. Be aware the the TTL levels must be 3.3V compatible, if they are 5V, the Pi's IO's will be damaged.
