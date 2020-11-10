@@ -131,7 +131,10 @@ This command is the temperature information command to the unit, the reply to th
 | 7 | 0 |
 | 8 | 0 |
 
-The temperature in degrees is calculated as follows: (<high byte> * 256 + <low byte> - 553) / 10
+The temperature in degrees is calculated as follows: 
+```
+(<high byte> * 256 + <low byte> - 553) / 10
+```
 
 ### Other commands
 
