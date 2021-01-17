@@ -2,7 +2,7 @@
 
 # Author: Danny De Gaspari
 
-import lib_serial
+import lib_hvac
 import sys, getopt
 
 def set():
@@ -70,8 +70,10 @@ def set():
       elif bladepos > 7:
         bladepos = 7
 
-  ser = lib_serial.ser_open()
-  print ('Capturing on:', ser.name)
+  ser = lib_hvac.ser_open()
+  if ser == -1:
+    print ('Error opening serial port.')
+    return -1
 
   for i in unit:
     msg = []
@@ -96,12 +98,12 @@ def set():
       msg.append(0x0  )
     msg.append(0x0  )
 
-    sermsg = lib_serial.compose_msg(msg)
-    serline = lib_serial.ser_send_msg(ser, sermsg)
-    lib_serial.print_serline(serline)
+    sermsg = lib_hvac.compose_hvac_msg(msg)
+    serline = lib_hvac.ser_send_hvac_msg(ser, sermsg)
+    lib_hvac.print_serline(serline)
 
   print('The end.')
-  lib_serial.ser_close(ser)
+  lib_hvac.ser_close(ser)
 
 if __name__== "__main__":
   set()
