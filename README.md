@@ -84,7 +84,7 @@ This command is an information request. The bytes in the command are all zeroes,
 |   | <p>bit 7 : 0 = power is off<br>1 = power in on</p> |
 | 6 | bit 4 : 1 = filter needs cleaning |
 | 7 | 0 |
-| 8 | bit 5-0 : another temperature - 9, copy of byte 3 ? |
+| 8 | bit 5-0 : another temperature - 9 |
 |   | bit 6   : always set to '1' ? |
 
 ### Command 53
