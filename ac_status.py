@@ -26,9 +26,6 @@ def get_status(units):
   ser = lib_hvac.ser_open()
   if ser == -1:
     return -1
-    #print('Error')
-    #exit(-1)
-  #print ('Capturing on:', ser.name)
 
 
   for unit in units:
@@ -39,12 +36,11 @@ def get_status(units):
     
     while collect_info:
       serline = lib_hvac.ser_capture_hvac_msg(ser)
-      #lib_hvac.print_serline(serline, False)
       if (serline[lib_hvac.PROTOCOL_SOURCE_POS] == unit.address):
         if (serline[lib_hvac.PROTOCOL_COMMAND_POS] == 0x52):
           cmd_52 = True
-          unit.settemp = (serline[lib_hvac.PROTOCOL_DATA1_POS] & 0x1f) + 9
-          unit.roomtemp = (serline[lib_hvac.PROTOCOL_DATA2_POS] & 0x1f) + 9
+          unit.settemp = (serline[lib_hvac.PROTOCOL_DATA1_POS] & 0x3f) + 9
+          unit.roomtemp = (serline[lib_hvac.PROTOCOL_DATA2_POS] & 0x3f) + 9
           unit.fan = (serline[lib_hvac.PROTOCOL_DATA4_POS] & 0x07)
           unit.swing = (serline[lib_hvac.PROTOCOL_DATA4_POS] & 0xf8) != 0xF8
           unit.on_off = (serline[lib_hvac.PROTOCOL_DATA5_POS] & 0x80) == 0x80
@@ -61,7 +57,6 @@ def get_status(units):
   return 0
 
 if __name__== "__main__":
-  #unit = [0x20, 0x21]
   units = [AC_Unit(0x20), AC_Unit(0x21)]
 
   print ('Reading status...')
