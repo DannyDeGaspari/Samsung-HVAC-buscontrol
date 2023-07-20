@@ -71,12 +71,9 @@ This command is an information request. The bytes in the command are all zeroes,
 
 | Data byte | Settings |
 | :---: | :--- |
-| 1 | bit 5-0 : set temperature - 9 |
-|   | bit 6   : always set to '1' ? |
-| 2 | bit 5-0 : room temperature - 9 |
-|   | bit 6   : always set to '1' ? |
-| 3 | bit 5-0 : output air temperature - 9 |
-|   | bit 6   : always set to '1' ? |
+| 1 | bit 6-0 : set temperature + 55 |
+| 2 | bit 6-0 : room temperature + 55 |
+| 3 | bit 6-0 : output air temperature + 55 |
 | 4 | <p>bit 2-0 : fan speed<br>0 = auto<br>2 = low<br>4 = medium<br>5 = high</p> |
 |   | <p>bit 7-3 : blade swing<br>1A = swing up/down<br>1F = blade swing off</p> |
 | 5 | <p>bit 3-0 : 1 = wired control<br>2 = remote control</p> |
@@ -84,8 +81,7 @@ This command is an information request. The bytes in the command are all zeroes,
 |   | <p>bit 7 : 0 = power is off<br>1 = power in on</p> |
 | 6 | bit 4 : 1 = filter needs cleaning |
 | 7 | 0 |
-| 8 | bit 5-0 : another temperature - 9 |
-|   | bit 6   : always set to '1' ? |
+| 8 | bit 6-0 : another temperature + 55 |
 
 ### Command 53
 
