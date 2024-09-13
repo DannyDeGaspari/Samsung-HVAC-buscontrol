@@ -9,7 +9,7 @@ Note that this does not describe the communication protocol of a wireless IR con
 The physical layer is a 2 wire RS-485 communications bus. Each unit has 2 such busses. The wires are labelled F1, F2, F3 and F4. F1 and F2 are used for communications with the outdoor unit, the F3 and F4 wires are used for the wired remote control.
 
 ## Protocol
-Serial communication settings used on the bus are 2400 baud, 8E1. The wired remote control is the master, the indoor units are the slaves. The wired remote control send commands as a message of 14 bytes. The units respond with a similar message with the same length.
+Serial communication settings used on the bus are 2400 baud, 8E1. The wired remote control is the master, the indoor units are the slaves. The wired remote control sends commands as a message of 14 bytes. The units responds with a similar message with the same length.
 The protocol can be described as follows:
 
 ```
@@ -60,7 +60,7 @@ This is the command to be used when the settings of the HVAC unit needs to be ch
 |   | bit 5 : reset "clean filter" message |
 | 5 | <p>bit 7-0 : on/off<br>c4 = switch off<br>f4 = switch on</p> |
 | 6 | 0 |
-| 7 | <p>bit 3-0 : set blade position<br>0 = closed<br>1 = open smallest<br>2 = mid positions<br>7 = open max</p> |
+| 7 | <p>bit 3-0 : set blade position<br>0 = closed<br>1 = open smallest<br>2-6 = mid positions<br>7 = open max</p> |
 |   | bit 4 : set blade position |
 |   | bit 5 : quiet mode |
 | 8 | 0 |
